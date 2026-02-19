@@ -14,8 +14,8 @@ app.get("/", (req, res) => {
 
 app.get("/test", async (req, res) => {
   try {
-    const response = await axios.post(
-      https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages,
+    await axios.post(
+      "https://graph.facebook.com/v18.0/" + PHONE_NUMBER_ID + "/messages",
       {
         messaging_product: "whatsapp",
         to: "213556382694",
@@ -26,7 +26,7 @@ app.get("/test", async (req, res) => {
       },
       {
         headers: {
-          Authorization: Bearer ${TOKEN},
+          Authorization: "Bearer " + TOKEN,
           "Content-Type": "application/json"
         }
       }
