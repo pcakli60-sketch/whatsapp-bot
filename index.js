@@ -5,27 +5,24 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-
 const TOKEN = process.env.WHATSAPP_TOKEN;
 const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
 
-// الصفحة الرئيسية
 app.get("/", (req, res) => {
   res.send("Bot is running 🚀");
 });
 
-// =======================
-// اختبار إرسال رسالة
-// =======================
 app.get("/test", async (req, res) => {
   try {
-    await axios.post(
+    const response = await axios.post(
       https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages,
       {
         messaging_product: "whatsapp",
         to: "213556382694",
         type: "text",
-        text: { body: "Test message 🚀 من Yazid STORE" }
+        text: {
+          body: "Test message 🚀 from Yazid STORE"
+        }
       },
       {
         headers: {
@@ -39,36 +36,6 @@ app.get("/test", async (req, res) => {
   } catch (error) {
     console.log(error.response?.data || error.message);
     res.status(500).send("Error sending test");
-  }
-});
-
-// =======================
-// Route الإرسال العادي
-// =======================
-app.post("/send", async (req, res) => {
-  const { to, message } = req.body;
-
-  try {
-    await axios.post(
-      https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages,
-      {
-        messaging_product: "whatsapp",
-        to: to,
-        type: "text",
-        text: { body: message }
-      },
-      {
-        headers: {
-          Authorization: Bearer ${TOKEN},
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    res.send("Message sent ✅");
-  } catch (error) {
-    console.log(error.response?.data || error.message);
-    res.status(500).send("Error sending message");
   }
 });
 
