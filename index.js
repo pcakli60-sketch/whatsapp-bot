@@ -14,9 +14,37 @@ app.get("/", (req, res) => {
   res.send("Bot is running 🚀");
 });
 
-// =============================
-// إرسال رسالة
-// =============================
+// =======================
+// اختبار إرسال رسالة
+// =======================
+app.get("/test", async (req, res) => {
+  try {
+    await axios.post(
+      https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages,
+      {
+        messaging_product: "whatsapp",
+        to: "213556382694",
+        type: "text",
+        text: { body: "Test message 🚀 من Yazid STORE" }
+      },
+      {
+        headers: {
+          Authorization: Bearer ${TOKEN},
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    res.send("Test message sent ✅");
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+    res.status(500).send("Error sending test");
+  }
+});
+
+// =======================
+// Route الإرسال العادي
+// =======================
 app.post("/send", async (req, res) => {
   const { to, message } = req.body;
 
